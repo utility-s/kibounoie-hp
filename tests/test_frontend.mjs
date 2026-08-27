@@ -857,3 +857,34 @@ test('Activities: daily gallery remains primary after annual events removal', ()
   assert.ok(twDescMatch, 'Must contain new twitter:description');
 });
 
+test('Service: creative activity heading uses approved support wording', () => {
+  const serviceHtmlPath = path.resolve('public/service.html');
+  assert.ok(fs.existsSync(serviceHtmlPath), 'public/service.html must exist');
+
+  const html = fs.readFileSync(serviceHtmlPath, 'utf8');
+
+  // 1. Heading verification
+  const newHeadingMatches = html.match(/<h3>創作活動支援<\/h3>/g) || [];
+  assert.strictEqual(newHeadingMatches.length, 1, 'Must contain exactly 1 <h3>創作活動支援</h3>');
+
+  const oldHeadingMatches = html.match(/<h3>創作的活動<\/h3>/g) || [];
+  assert.strictEqual(oldHeadingMatches.length, 0, 'Must not contain <h3>創作的活動</h3>');
+
+  // 2. Info text preservation
+  assert.ok(
+    html.includes('創作的活動や生産活動の機会を提供する障害福祉サービスです。'),
+    'Must maintain "創作的活動" in the "生活介護とは" service description text'
+  );
+
+  // 3. Existing headings preservation
+  assert.match(html, /<h3>日常生活支援<\/h3>/, 'Must maintain <h3>日常生活支援</h3>');
+  assert.match(html, /<h3>生産活動<\/h3>/, 'Must maintain <h3>生産活動</h3>');
+  assert.match(html, /<h3>集団・余暇活動<\/h3>/, 'Must maintain <h3>集団・余暇活動</h3>');
+
+  // 4. Description text under creative activity support heading
+  assert.ok(
+    html.includes('絵画、手芸、工作など、季節に合わせた様々なアート活動を行います。表現する楽しさを味わい、豊かな感性を育みます。'),
+    'Must maintain existing description text under 創作活動支援'
+  );
+});
+
