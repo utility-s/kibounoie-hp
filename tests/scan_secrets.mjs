@@ -20,7 +20,8 @@ export const ALLOWLIST_STRINGS = new Set([
   '9'.repeat(100), // Test string for 100+ digit Content-Length
   'X-Permitted-Cross-Domain-Policies',
   'x-permitted-cross-domain-policies',
-  'sha256-/sEhTg6MOarI5GLSBqSnNXhPnk/TPYQoSQS23QPPxaQ='
+  'sha256-/sEhTg6MOarI5GLSBqSnNXhPnk/TPYQoSQS23QPPxaQ=',
+  'sha256-QtXWJ5QiWz1r4gLi+qesGDhqm8FQ6M2jyTYSJ7jgfm4='
 ]);
 
 function mask(str) {
